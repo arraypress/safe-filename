@@ -18,3 +18,6 @@ export function getExtension(filename: string): string;
 
 /** Replace the extension of a filename. */
 export function replaceExtension(filename: string, ext: string): string;
+
+/** Convert a filename to a human-readable title (strip ext, replace separators, title case). */
+export function humanize(filename: string): string;

@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { sanitize, contentDisposition, getExtension, replaceExtension } from '../src/index.js';
+import { sanitize, contentDisposition, getExtension, replaceExtension, humanize } from '../src/index.js';
 
 describe('sanitize', () => {
   // Basic filenames
@@ -100,4 +100,17 @@ describe('replaceExtension', () => {
   it('adds extension', () => assert.equal(replaceExtension('README', 'md'), 'README.md'));
   it('removes extension', () => assert.equal(replaceExtension('file.txt', ''), 'file'));
   it('null filename', () => assert.equal(replaceExtension(null, 'txt'), 'file.txt'));
+});
+
+describe('humanize', () => {
+  it('basic filename', () => assert.equal(humanize('my-product-banner.jpg'), 'My Product Banner'));
+  it('underscores', () => assert.equal(humanize('dark_ambient_loop_01.wav'), 'Dark Ambient Loop 01'));
+  it('camera filename', () => assert.equal(humanize('IMG_20240315_142030.png'), 'IMG 20240315 142030'));
+  it('dots as separators', () => assert.equal(humanize('file.name.with.dots.pdf'), 'File Name With Dots'));
+  it('mixed separators', () => assert.equal(humanize('my_file-name.test.jpg'), 'My File Name Test'));
+  it('no extension', () => assert.equal(humanize('README'), 'README'));
+  it('already nice', () => assert.equal(humanize('Report.pdf'), 'Report'));
+  it('empty string', () => assert.equal(humanize(''), ''));
+  it('null', () => assert.equal(humanize(null), ''));
+  it('unicode', () => assert.equal(humanize('résumé-final.pdf'), 'RéSumé Final'));
 });

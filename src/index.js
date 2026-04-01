@@ -144,3 +144,31 @@ export function replaceExtension(filename, ext) {
   const base = dot > 0 ? filename.slice(0, dot) : filename;
   return ext ? `${base}.${ext}` : base;
 }
+
+/**
+ * Convert a filename to a human-readable title.
+ *
+ * Strips the extension, replaces hyphens/underscores/dots with spaces,
+ * collapses whitespace, and title-cases each word. Useful for auto-generating
+ * alt text, titles, and display names from filenames.
+ *
+ * @param {string} filename - The filename to humanize.
+ * @returns {string} Human-readable title.
+ *
+ * @example
+ * humanize('my-product-banner.jpg')           // 'My Product Banner'
+ * humanize('dark_ambient_loop_01.wav')        // 'Dark Ambient Loop 01'
+ * humanize('IMG_20240315_142030.png')         // 'IMG 20240315 142030'
+ * humanize('résumé-final-v2.pdf')             // 'Résumé Final V2'
+ * humanize('')                                // ''
+ * humanize(null)                              // ''
+ */
+export function humanize(filename) {
+  if (!filename) return '';
+  return filename
+    .replace(/\.[^.]+$/, '')           // strip extension
+    .replace(/[-_.]+/g, ' ')           // replace separators with spaces
+    .replace(/\s+/g, ' ')             // collapse whitespace
+    .trim()
+    .replace(/\b\w/g, c => c.toUpperCase()); // title case
+}
